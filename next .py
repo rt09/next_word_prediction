@@ -162,13 +162,13 @@ def predict_next_word(text):
     
     #applying the softmax layer
     softmax = torch.exp(predict)
-    prob = list(softmax.numpy())
+    prob = list(softmax.numpy()[0])
     
     #index of the predict word
-    predictions = np.argmax(prob)
+    indices = np.argsort(prob)[-3:]
 
     #converting the sequence back to word
-    next_word=tokenizer.sequences_to_texts([[predictions]])
+    next_word=tokenizer.sequences_to_texts([[index] for index in indices])
     return next_word
     
 
@@ -178,5 +178,5 @@ input_text=input("Enter your sentence with sequence lenght of 2 :")
 
 
 
-print("Possible next word will be:", predict_next_word(input_text)[0])
+print("Possible next word will be:", predict_next_word(input_text))
      
